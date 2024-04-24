@@ -4,11 +4,10 @@ import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
 
-const CoffeeCard = ({ coffee }) => {
+const CoffeeCard = ({ coffee, setAllCoffee, allCoffee }) => {
     const { _id, name, chef, supplier, taste, photo } = coffee;
 
     const handleDelete = _id => {
-        console.log(_id)
 
         Swal.fire({
             title: "Are you sure?",
@@ -21,7 +20,7 @@ const CoffeeCard = ({ coffee }) => {
         }).then((result) => {
             if (result.isConfirmed) {
 
-                fetch(`http://localhost:5000/coffee/${_id}`, {
+                fetch(`https://coffee-store-server-pi-jade.vercel.app/coffee/${_id}`, {
                     method: "DELETE"
                 })
                     .then(res => res.json())
@@ -34,6 +33,10 @@ const CoffeeCard = ({ coffee }) => {
                                 icon: "success"
                             });
                         }
+
+                        const remaining = allCoffee.filter(c => c._id !== _id);
+                        setAllCoffee(remaining)
+                        
                     })
 
             }

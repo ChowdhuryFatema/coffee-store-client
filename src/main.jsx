@@ -9,6 +9,10 @@ import Home from './Pages/Home/Home';
 import Root from './Root/Root';
 import AddCoffee from './Pages/AddCoffee/AddCoffee';
 import UpdateCoffee from './Pages/UpdateCoffee/UpdateCoffee';
+import SignIn from './Pages/SignIn/SignIn';
+import SignUp from './Pages/SignUp/SignUp';
+import AuthProvider from './Providers/AuthProvider';
+import Users from './Pages/Users/Users';
 
 const router = createBrowserRouter([
   {
@@ -18,7 +22,7 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home></Home>,
-        loader: () => fetch('http://localhost:5000/coffee')
+        loader: () => fetch('https://coffee-store-server-pi-jade.vercel.app/coffee')
       },
       {
         path: "addCoffee",
@@ -27,7 +31,20 @@ const router = createBrowserRouter([
       {
         path: "/updateCoffee/:id",
         element: <UpdateCoffee></UpdateCoffee>,
-        loader: ({params}) => fetch(`http://localhost:5000/coffee/${params.id}`)
+        loader: ({params}) => fetch(`https://coffee-store-server-pi-jade.vercel.app/coffee/${params.id}`)
+      },
+      {
+        path: "/signIn",
+        element: <SignIn></SignIn>,
+      },
+      {
+        path: "/signUp",
+        element: <SignUp></SignUp>,
+      },
+      {
+        path: "/users",
+        element: <Users></Users>,
+        loader: () => fetch('https://coffee-store-server-pi-jade.vercel.app/user')
       }
     ],
   },
@@ -35,6 +52,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </React.StrictMode>,
 )
